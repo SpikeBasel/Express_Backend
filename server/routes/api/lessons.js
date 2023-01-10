@@ -10,6 +10,19 @@ router.get('/', async (req, res) => {
   return;
 });
 
+// Add Lessons
+router.post('/', async (req, res) => {
+  const lessons = await loadLessonsCollection();
+  await lessons.insertOne({
+    topic: req.body.topic,
+    location: req.body.location,
+    price: req.body.price,
+    createdAt: new Date()
+  });
+  res.status(201).send();
+  return;
+});
+
 
 async function loadLessonsCollection() {
   const client = await mongodb.MongoClient.connect(
