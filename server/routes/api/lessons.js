@@ -23,6 +23,13 @@ router.post('/', async (req, res) => {
   return;
 });
 
+// Delete Lessons
+router.delete('/:id', async (req, res) => {
+  const lessons = await loadLessonsCollection();
+  await lessons.deleteOne({ _id: new mongodb.ObjectID(req.params.id) });
+  res.status(200).send({});
+  return;
+});
 
 async function loadLessonsCollection() {
   const client = await mongodb.MongoClient.connect(
