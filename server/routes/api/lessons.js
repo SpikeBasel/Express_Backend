@@ -17,23 +17,27 @@ router.post('/', async (req, res) => {
     topic: req.body.topic,
     location: req.body.location,
     price: req.body.price,
+    space: req.body.space,
     createdAt: new Date()
   });
   res.status(201).send();
   return;
 });
 
-// Delete Lessons
-router.delete('/:id', async (req, res) => {
+// Update Lessons
+router.put('/:id', async (req, res) => {
   const lessons = await loadLessonsCollection();
-  await lessons.deleteOne({ _id: new mongodb.ObjectID(req.params.id) });
-  res.status(200).send({});
+  await lessons.updateOne(
+    { _id: new mongodb.ObjectID(req.params.id) },
+    { $inc: { space: -1 }}
+  );
+  res.status(201).send();
   return;
 });
 
 async function loadLessonsCollection() {
   const client = await mongodb.MongoClient.connect(
-    'mongodb+srv://test:test@cluster0.3fipndn.mongodb.net/test',
+    'mongodb+srv://spike:spike@cluster0.smyaknq.mongodb.net/test',
     {
       useNewUrlParser: true,
       useUnifiedTopology: true
