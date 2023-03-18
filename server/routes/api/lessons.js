@@ -29,7 +29,7 @@ router.put('/:id', async (req, res) => {
   const lessons = await loadLessonsCollection();
   await lessons.updateOne(
     { _id: new mongodb.ObjectID(req.params.id) },
-    { $inc: { space: -1 }}
+    { $inc: { space: req.body.space }}
   );
   res.status(201).send();
   return;
